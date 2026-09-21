@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CertPrep Hub — Certification Exam Preparation Resources</title>
+<meta name="description" content="A curated, searchable library of certification exam preparation resources: exam-style practice questions, study guides and topic outlines for cloud, security, networking, data and project-management certifications.">
+<meta name="theme-color" content="#0E5561">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230E5561'/%3E%3Cpath d='M8 23V9l8-4 8 4v14l-8 4-8-4z' fill='none' stroke='%23C77D2B' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M12.5 16.5l2.4 2.4 4.6-5' fill='none' stroke='%23F5F7F6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+<style>
+/* =========================================================================
+   CertPrep Hub — design tokens
+   Palette: deep petrol teal (trust + technology) with a warm amber accent.
+   Everything below is token-driven; change these values to re-skin the site.
+   ========================================================================= */
+:root{
+  --primary:#0E5561;          /* brand petrol teal */
+  --primary-dark:#08353D;     /* headings on dark, hover state */
+  --primary-soft:#E3EEF0;     /* tinted fills, chips */
+  --primary-ring:rgba(14,85,97,.28);
+
+  --accent:#C77D2B;           /* complementary warm amber */
+  --accent-dark:#9C5F1C;
+  --accent-soft:#F8EFE2;
+  --accent-on-dark:#E9B067;   /* amber for large text on the dark teal surfaces */
+
+  --background:#F4F6F7;       /* page canvas */
+  --surface:#FFFFFF;          /* cards */
+  --surface-alt:#EDF1F2;      /* alt panels, code-ish fills */
+
+  --text-dark:#122A2F;
+  --text-body:#31474C;
+  --text-muted:#586F75;
+  --border:#C8D3D6;
+  --border-strong:#AFC1C5;
+  --white:#FFFFFF;
+
+  --success:#1E7F5C;
+  --success-soft:#E6F2ED;
+
+  --shadow-xs:0 1px 2px rgba(18,42,47,.05);
+  --shadow-sm:0 1px 2px rgba(18,42,47,.06), 0 4px 12px rgba(18,42,47,.05);
+  --shadow-md:0 4px 10px rgba(18,42,47,.07), 0 16px 34px rgba(18,42,47,.09);
+  --shadow-lg:0 10px 24px rgba(18,42,47,.10), 0 34px 68px rgba(18,42,47,.13);
+
+  --radius-sm:8px;
+  --radius:12px;
+  --radius-lg:18px;
+  --radius-xl:26px;
+
+  --maxw:1200px;
+  --nav-h:68px;
+
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+  --font-mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+
+  --ease:cubic-bezier(.4,0,.2,1);
+  --t-fast:140ms var(--ease);
+  --t:220ms var(--ease);
+}
+
+/* ------------------------------------------------------------------ reset */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  font-family:var(--font);
+  font-size:16px;
+  line-height:1.62;
+  color:var(--text-body);
+  background:var(--background);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+h1,h2,h3,h4{color:var(--text-dark);line-height:1.2;margin:0 0 .5em;font-weight:700;letter-spacing:-.015em}
+h1{font-size:clamp(2.05rem,1.2rem + 3.4vw,3.35rem);letter-spacing:-.03em;line-height:1.08}
+h2{font-size:clamp(1.6rem,1.15rem + 1.6vw,2.3rem)}
+h3{font-size:1.13rem;letter-spacing:-.01em}
+p{margin:0 0 1em}
+a{color:var(--primary);text-decoration:none;transition:color var(--t-fast)}
+a:hover{color:var(--accent-dark)}
+img,svg{display:block;max-width:100%}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+ul{margin:0;padding:0;list-style:none}
+:focus-visible{outline:3px solid var(--primary-ring);outline-offset:2px;border-radius:6px}
+.hero :focus-visible,.site-footer :focus-visible{outline-color:rgba(255,255,255,.55)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip-link{position:absolute;left:16px;top:-60px;z-index:200;background:var(--white);color:var(--primary-dark);
+  padding:10px 16px;border-radius:0 0 var(--radius-sm) var(--radius-sm);box-shadow:var(--shadow-md);font-weight:600;transition:top var(--t)}
+.skip-link:focus{top:0}
+
+/* ---------------------------------------------------------------- layout */
+.wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 22px}
+section{scroll-margin-top:calc(var(--nav-h) + 18px)}
+.section{padding:78px 0}
+.section-tight{padding:56px 0}
+.section-head{max-width:760px;margin-bottom:38px}
+.section-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--accent-dark);background:var(--accent-soft);border:1px solid #EBDCC5;
+  padding:5px 12px;border-radius:100px;margin-bottom:16px}
+.lede{font-size:1.075rem;color:var(--text-muted);margin:0}
+.rule{height:1px;background:var(--border);border:0;margin:0}
+
+/* ---------------------------------------------------------------- buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-weight:600;font-size:.94rem;
+  padding:12px 20px;border-radius:10px;border:1px solid transparent;background:none;
+  transition:background-color var(--t-fast),color var(--t-fast),border-color var(--t-fast),
+             box-shadow var(--t-fast),transform var(--t-fast)}
+.btn svg{width:17px;height:17px;flex:none}
+.btn-primary{background:var(--primary);color:var(--white);box-shadow:var(--shadow-xs)}
+.btn-primary:hover{background:var(--primary-dark);color:var(--white);box-shadow:var(--shadow-sm)}
+.btn-accent{background:var(--accent);color:#2A1A05;box-shadow:var(--shadow-xs)}
+.btn-accent:hover{background:var(--accent-dark);color:#2A1A05}
+.btn-outline{border-color:var(--border-strong);color:var(--text-dark);background:var(--surface)}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-soft)}
+.btn-ghost{color:var(--primary);padding:12px 14px}
+.btn-ghost:hover{background:var(--primary-soft);color:var(--primary-dark)}
+.btn-lg{padding:14px 26px;font-size:1rem}
+.btn-block{width:100%}
+.btn:active{transform:translateY(1px)}
+
+/* ----------------------------------------------------------------- header */
+.site-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.88);
+  -webkit-backdrop-filter:saturate(160%) blur(10px);backdrop-filter:saturate(160%) blur(10px);
+  border-bottom:1px solid transparent;transition:box-shadow var(--t),border-color var(--t),background-color var(--t)}
+.site-header.is-stuck{border-bottom-color:var(--border);box-shadow:0 1px 0 rgba(18,42,47,.03),0 8px 26px rgba(18,42,47,.06)}
+.nav{display:flex;align-items:center;gap:22px;height:var(--nav-h)}
+.brand{display:flex;align-items:center;gap:11px;font-weight:700;color:var(--text-dark);letter-spacing:-.02em;font-size:1.06rem}
+.brand:hover{color:var(--primary-dark)}
+.brand-mark{width:34px;height:34px;border-radius:9px;background:var(--primary);display:grid;place-items:center;flex:none;
+  box-shadow:inset 0 -8px 14px rgba(0,0,0,.14)}
+.brand-mark svg{width:20px;height:20px}
+.brand small{display:block;font-size:.66rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);line-height:1}
+.nav-links{display:flex;align-items:center;gap:4px;margin-left:auto}
+.nav-links a{padding:9px 13px;border-radius:8px;font-size:.93rem;font-weight:500;color:var(--text-body)}
+.nav-links a:hover{background:var(--primary-soft);color:var(--primary-dark)}
+.nav-actions{display:flex;align-items:center;gap:10px;margin-left:14px}
+.nav-toggle{display:none;width:42px;height:40px;border:1px solid var(--border);background:var(--surface);
+  border-radius:10px;align-items:center;justify-content:center;margin-left:auto}
+.nav-toggle svg{width:20px;height:20px;stroke:var(--text-dark)}
+.mobile-panel{display:none;border-top:1px solid var(--border);background:var(--surface);padding:12px 22px 20px}
+.mobile-panel a{display:block;padding:12px 4px;border-bottom:1px solid var(--border);font-weight:500;color:var(--text-dark)}
+.mobile-panel a:last-of-type{border-bottom:0}
+.mobile-panel .btn{margin-top:14px}
+body.nav-open .mobile-panel{display:block}
+body.nav-open .nav-toggle .icon-close{display:block}
+body.nav-open .nav-toggle .icon-menu{display:none}
+.nav-toggle .icon-close{display:none}
+
+/* ------------------------------------------------------------------- hero */
+.hero{position:relative;overflow:hidden;background:var(--primary);color:#E9F2F3;
+  padding:74px 0 64px;border-bottom:1px solid #0A4049}
+.hero::before{content:"";position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:56px 56px;
+  -webkit-mask-image:radial-gradient(110% 90% at 78% 0%,#000 15%,transparent 78%);
+          mask-image:radial-gradient(110% 90% at 78% 0%,#000 15%,transparent 78%);
+  pointer-events:none}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:rgba(255,255,255,.09)}
+.hero-inner{position:relative;z-index:1}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);gap:56px;align-items:center}
+.hero h1{color:var(--white)}
+.hero h1 .mark{color:var(--accent-on-dark);position:relative;white-space:nowrap}
+.hero-badge{display:inline-flex;align-items:center;gap:9px;font-size:.79rem;font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;color:#BFE0E4;border:1px solid rgba(191,224,228,.3);background:rgba(255,255,255,.05);
+  padding:6px 14px;border-radius:100px;margin-bottom:20px}
+.hero-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex:none}
+.hero p.lede{color:#C9DCDE;font-size:1.1rem;max-width:37rem}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin:26px 0 30px}
+.hero .btn-outline{background:transparent;border-color:rgba(255,255,255,.34);color:#EAF3F4}
+.hero .btn-outline:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.6);color:var(--white)}
+.hero-stats{display:flex;flex-wrap:wrap;gap:0;border-top:1px solid rgba(255,255,255,.14);padding-top:22px}
+.hero-stats div{padding-right:34px;margin-right:34px;border-right:1px solid rgba(255,255,255,.14)}
+.hero-stats div:last-child{border-right:0;margin-right:0;padding-right:0}
+.hero-stats b{display:block;font-size:1.6rem;color:var(--white);letter-spacing:-.02em;line-height:1.1}
+.hero-stats span{font-size:.83rem;color:#A9C6CA}
+
+/* hero search card */
+.finder{background:var(--surface);border-radius:var(--radius-lg);padding:22px;box-shadow:var(--shadow-lg);
+  border:1px solid rgba(255,255,255,.5);color:var(--text-body)}
+.finder h2{font-size:1.02rem;margin:0 0 4px}
+.finder .sub{font-size:.86rem;color:var(--text-muted);margin:0 0 14px}
+.finder-field{position:relative;display:flex;align-items:center}
+.finder-field svg{position:absolute;left:14px;width:18px;height:18px;stroke:var(--text-muted)}
+.finder-field input{width:100%;padding:14px 96px 14px 42px;border:1px solid var(--border-strong);border-radius:11px;
+  background:var(--surface-alt);transition:border-color var(--t-fast),box-shadow var(--t-fast),background-color var(--t-fast)}
+.finder-field input:focus{outline:none;border-color:var(--primary);background:var(--white);
+  box-shadow:0 0 0 4px var(--primary-ring)}
+.finder-field .go{position:absolute;right:6px;padding:9px 15px;font-size:.88rem}
+.finder-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px;align-items:center}
+.finder-chips span{font-size:.78rem;color:var(--text-muted);margin-right:2px}
+.finder-chips button{font-size:.78rem;font-weight:600;color:var(--primary-dark);background:var(--primary-soft);
+  border:1px solid #CDE0E3;border-radius:100px;padding:5px 11px;transition:background-color var(--t-fast),color var(--t-fast),border-color var(--t-fast)}
+.finder-chips button:hover{background:var(--primary);border-color:var(--primary);color:var(--white)}
+
+/* ---------------------------------------------------------------- features */
+.feature-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.feature{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px 22px;
+  box-shadow:var(--shadow-xs);transition:border-color var(--t),box-shadow var(--t),transform var(--t)}
+.feature:hover{border-color:var(--border-strong);box-shadow:var(--shadow-sm);transform:translateY(-2px)}
+.feature .ico{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;margin-bottom:15px;
+  background:var(--primary-soft);border:1px solid #CFE2E5}
+.feature .ico svg{width:21px;height:21px;stroke:var(--primary)}
+.feature.accent .ico{background:var(--accent-soft);border-color:#EBDCC5}
+.feature.accent .ico svg{stroke:var(--accent-dark)}
+.feature h3{margin-bottom:6px}
+.feature p{font-size:.92rem;color:var(--text-muted);margin:0}
+
+/* --------------------------------------------------------------- library */
+.library{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.lib-toolbar{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;
+  padding:16px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface-alt);margin-bottom:22px}
+.search-box{position:relative;flex:1 1 320px;min-width:240px;display:flex;align-items:center}
+.search-box svg{position:absolute;left:13px;width:18px;height:18px;stroke:var(--text-muted);pointer-events:none}
+.search-box input{width:100%;padding:11px 40px 11px 40px;border:1px solid var(--border-strong);border-radius:10px;
+  background:var(--surface);transition:border-color var(--t-fast),box-shadow var(--t-fast)}
+.search-box input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-ring)}
+.search-box .clear{position:absolute;right:8px;width:26px;height:26px;border-radius:50%;border:0;background:var(--surface-alt);
+  display:none;place-items:center;color:var(--text-muted);font-size:15px;line-height:1}
+.search-box.has-value .clear{display:grid}
+.search-box .clear:hover{background:var(--primary-soft);color:var(--primary-dark)}
+.kbd{font-family:var(--font-mono);font-size:.72rem;border:1px solid var(--border-strong);border-bottom-width:2px;
+  border-radius:5px;padding:1px 5px;background:var(--surface);color:var(--text-muted)}
+.sort-wrap{display:flex;align-items:center;gap:8px;font-size:.86rem;color:var(--text-muted)}
+.sort-wrap select{padding:9px 32px 9px 12px;border:1px solid var(--border-strong);border-radius:10px;background:var(--surface);
+  appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23586F75' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 11px center;cursor:pointer}
+.sort-wrap select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-ring)}
+
+.filter-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+.chip{font-size:.85rem;font-weight:600;color:var(--text-body);background:var(--surface);border:1px solid var(--border-strong);
+  border-radius:100px;padding:7px 14px;transition:background-color var(--t-fast),color var(--t-fast),border-color var(--t-fast)}
+.chip:hover{border-color:var(--primary);color:var(--primary-dark);background:var(--primary-soft)}
+.chip[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:var(--white)}
+.chip .n{font-weight:500;opacity:.72;margin-left:5px;font-variant-numeric:tabular-nums}
+.chip.saved[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#2A1A05}
+.chip.saved .ico-star{width:13px;height:13px;vertical-align:-2px;margin-right:5px;fill:currentColor;stroke:none}
+.lib-meta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:20px;
+  font-size:.88rem;color:var(--text-muted)}
+.lib-meta strong{color:var(--text-dark);font-variant-numeric:tabular-nums}
+.reset-link{border:0;background:none;font-size:.86rem;font-weight:600;color:var(--accent-dark);padding:4px 6px;border-radius:6px}
+.reset-link:hover{background:var(--accent-soft)}
+.reset-link[hidden]{display:none}
+
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.card{position:relative;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-xs);
+  transition:border-color var(--t),box-shadow var(--t),transform var(--t)}
+.card:hover{border-color:var(--border-strong);box-shadow:var(--shadow-md);transform:translateY(-3px)}
+.card:focus-within{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-ring)}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
+.vendor{display:inline-flex;align-items:center;gap:6px;font-size:.735rem;font-weight:700;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--primary-dark);background:var(--primary-soft);border:1px solid #CFE2E5;
+  border-radius:6px;padding:4px 9px;line-height:1.3}
+.save-btn{width:32px;height:32px;flex:none;border:1px solid var(--border);background:var(--surface);border-radius:8px;
+  display:grid;place-items:center;transition:background-color var(--t-fast),border-color var(--t-fast),transform var(--t-fast)}
+.save-btn svg{width:16px;height:16px;stroke:var(--text-muted);fill:none;transition:stroke var(--t-fast),fill var(--t-fast)}
+.save-btn:hover{border-color:var(--accent);background:var(--accent-soft)}
+.save-btn:hover svg{stroke:var(--accent-dark)}
+.save-btn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.save-btn[aria-pressed="true"] svg{stroke:var(--accent-dark);fill:var(--accent)}
+.code{font-family:var(--font-mono);font-size:1.02rem;font-weight:700;color:var(--text-dark);letter-spacing:-.01em;
+  word-break:break-word;margin:0 0 5px}
+.card h3{font-size:.93rem;font-weight:500;color:var(--text-muted);line-height:1.45;margin:0 0 14px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px}
+.tag{font-size:.74rem;font-weight:600;color:var(--text-body);background:var(--surface-alt);border:1px solid var(--border);
+  border-radius:100px;padding:3px 10px}
+.card-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding-top:14px;border-top:1px solid var(--border)}
+.updated{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:600;color:var(--success)}
+.updated svg{width:14px;height:14px;stroke:var(--success);flex:none}
+.card-link{display:inline-flex;align-items:center;gap:7px;font-size:.88rem;font-weight:600;color:var(--primary);
+  padding:8px 12px;border-radius:8px;border:1px solid var(--border-strong);background:var(--surface);
+  transition:background-color var(--t-fast),color var(--t-fast),border-color var(--t-fast)}
+.card-link svg{width:14px;height:14px;stroke:currentColor;transition:transform var(--t-fast)}
+.card-link:hover{background:var(--primary);border-color:var(--primary);color:var(--white)}
+.card-link:hover svg{transform:translate(2px,-2px)}
+.empty{grid-column:1/-1;text-align:center;padding:56px 20px;border:1px dashed var(--border-strong);border-radius:var(--radius);
+  background:var(--surface-alt)}
+.empty h3{margin-bottom:6px}
+.empty p{color:var(--text-muted);margin-bottom:18px}
+.load-more{display:flex;justify-content:center;margin-top:34px}
+
+/* ------------------------------------------------------------------ steps */
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;counter-reset:step}
+.step{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px 22px}
+.step .num{counter-increment:step;font-family:var(--font-mono);font-size:.78rem;font-weight:700;color:var(--accent-dark);
+  background:var(--accent-soft);border:1px solid #EBDCC5;border-radius:100px;padding:4px 11px;display:inline-block;margin-bottom:14px}
+.step .num::before{content:"0" counter(step)}
+.step h3{margin-bottom:6px}
+.step p{font-size:.92rem;color:var(--text-muted);margin:0}
+
+/* ------------------------------------------------------------------- tips */
+.tips{background:var(--surface)}
+.tip-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.tip{display:flex;gap:14px;padding:20px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface-alt);
+  transition:border-color var(--t),background-color var(--t)}
+.tip:hover{border-color:var(--border-strong);background:var(--surface)}
+.tip .ico{width:36px;height:36px;flex:none;border-radius:9px;background:var(--surface);border:1px solid var(--border);
+  display:grid;place-items:center}
+.tip .ico svg{width:18px;height:18px;stroke:var(--primary)}
+.tip h3{font-size:.99rem;margin-bottom:5px}
+.tip p{font-size:.9rem;color:var(--text-muted);margin:0}
+
+/* -------------------------------------------------------------------- faq */
+.faq-list{max-width:860px;margin:0 auto;border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--surface);overflow:hidden}
+.faq-item+.faq-item{border-top:1px solid var(--border)}
+.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:18px;text-align:left;
+  padding:19px 22px;background:none;border:0;font-size:1rem;font-weight:600;color:var(--text-dark);
+  transition:background-color var(--t-fast),color var(--t-fast)}
+.faq-q:hover{background:var(--surface-alt);color:var(--primary-dark)}
+.faq-q .pm{position:relative;width:20px;height:20px;flex:none}
+.faq-q .pm::before,.faq-q .pm::after{content:"";position:absolute;top:50%;left:50%;width:12px;height:2px;
+  background:var(--primary);border-radius:2px;transform:translate(-50%,-50%);transition:transform var(--t),opacity var(--t)}
+.faq-q .pm::after{transform:translate(-50%,-50%) rotate(90deg)}
+.faq-q[aria-expanded="true"]{color:var(--primary-dark);background:var(--surface-alt)}
+.faq-q[aria-expanded="true"] .pm::after{opacity:0;transform:translate(-50%,-50%) rotate(0)}
+.faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--t)}
+.faq-a>div{overflow:hidden}
+.faq-a p{padding:0 22px 20px;margin:0;color:var(--text-muted);font-size:.95rem;max-width:70ch}
+.faq-item.open .faq-a{grid-template-rows:1fr}
+
+/* ------------------------------------------------------------------- cta */
+.cta-band{background:var(--primary-dark);color:#D6E7E9;padding:60px 0}
+.cta-band::selection{background:var(--accent)}
+.cta-inner{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);gap:44px;align-items:center}
+.cta-band h2{color:var(--white)}
+.cta-band p{color:#B3CFD3;margin:0}
+.plan-form{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:var(--radius-lg);padding:24px}
+.plan-form label{display:block;font-size:.82rem;font-weight:600;color:#CFE2E4;margin-bottom:7px}
+.plan-form input,.plan-form select{width:100%;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.07);color:var(--white);margin-bottom:14px;
+  transition:border-color var(--t-fast),box-shadow var(--t-fast),background-color var(--t-fast)}
+.plan-form select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23CFE2E4' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 13px center;cursor:pointer}
+.plan-form select option{color:var(--text-dark)}
+.plan-form input::placeholder{color:#93AFB3}
+.plan-form input:focus,.plan-form select:focus{outline:none;border-color:var(--accent);background:rgba(255,255,255,.11);
+  box-shadow:0 0 0 4px rgba(199,125,43,.24)}
+.plan-form .err{color:#F3B6B0;font-size:.8rem;margin:-8px 0 12px;min-height:0}
+.plan-form .hint{font-size:.76rem;color:#93AFB3;margin:12px 0 0;text-align:center}
+.form-ok{display:none;align-items:flex-start;gap:12px;background:rgba(30,127,92,.16);border:1px solid rgba(120,196,166,.4);
+  border-radius:10px;padding:14px;color:#D8EFE6;font-size:.92rem}
+.form-ok svg{width:20px;height:20px;stroke:#7FD3B0;flex:none;margin-top:1px}
+.plan-form.sent .form-ok{display:flex}
+.plan-form.sent .plan-fields{display:none}
+
+/* ---------------------------------------------------------------- footer */
+.site-footer{background:var(--text-dark);color:#A9C2C6;padding:56px 0 0;font-size:.92rem}
+.foot-grid{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr));gap:38px;padding-bottom:44px}
+.foot-brand .brand{color:var(--white)}
+.foot-brand .brand small{color:#8FABB0}
+.foot-brand p{margin:16px 0 0;max-width:34ch;color:#96B2B7}
+.site-footer h3{color:var(--white);font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+.site-footer ul li{margin-bottom:9px}
+.site-footer ul a{color:#A9C2C6}
+.site-footer ul a:hover{color:var(--white)}
+.foot-contact li{display:flex;gap:10px;align-items:flex-start;color:#A9C2C6}
+.foot-contact svg{width:16px;height:16px;stroke:#7FA0A6;flex:none;margin-top:4px}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.1);padding:22px 0 28px;display:flex;flex-wrap:wrap;gap:14px;
+  justify-content:space-between;align-items:center;font-size:.83rem;color:#8FABB0}
+.foot-bottom nav{display:flex;flex-wrap:wrap;gap:18px}
+.disclaimer{border-top:1px solid rgba(255,255,255,.1);padding:20px 0 26px;font-size:.79rem;line-height:1.6;color:#7E9AA0;max-width:100ch}
+
+/* ------------------------------------------------------------- utilities */
+.to-top{position:fixed;right:20px;bottom:20px;z-index:90;width:44px;height:44px;border-radius:12px;border:1px solid var(--border-strong);
+  background:var(--surface);box-shadow:var(--shadow-md);display:grid;place-items:center;
+  opacity:0;visibility:hidden;transform:translateY(8px);
+  transition:opacity var(--t),transform var(--t),visibility var(--t),background-color var(--t-fast)}
+.to-top svg{width:18px;height:18px;stroke:var(--text-dark)}
+.to-top:hover{background:var(--primary-soft)}
+.to-top.show{opacity:1;visibility:visible;transform:none}
+
+/* ------------------------------------------------------------- responsive */
+@media (max-width:1080px){
+  .feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .foot-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px}
+}
+@media (max-width:920px){
+  .nav-links,.nav-actions .btn{display:none}
+  .nav-toggle{display:flex}
+  .hero{padding:56px 0 48px}
+  .hero-grid{grid-template-columns:1fr;gap:38px}
+  .cta-inner{grid-template-columns:1fr;gap:28px}
+  .tip-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:640px){
+  :root{--nav-h:62px}
+  .section{padding:56px 0}
+  .wrap{padding:0 18px}
+  .feature-grid,.steps,.grid,.tip-grid,.foot-grid{grid-template-columns:1fr}
+  .hero-stats div{padding-right:20px;margin-right:20px}
+  .hero-stats b{font-size:1.35rem}
+  .lib-toolbar{padding:14px}
+  .finder{padding:18px}
+  .finder-field input{padding-right:14px}
+  .finder-field .go{position:static;margin-top:10px;width:100%}
+  .finder-field{flex-direction:column;align-items:stretch}
+  .finder-field svg{top:15px}
+  .foot-bottom{flex-direction:column;align-items:flex-start}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.001ms!important;animation-duration:.001ms!important;scroll-behavior:auto!important}
+  .card:hover,.feature:hover{transform:none}
+}
+@media print{
+  .site-header,.to-top,.lib-toolbar,.filter-row,.hero-cta,.plan-form{display:none!important}
+  body{background:#fff}
+  .card{break-inside:avoid;box-shadow:none}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+<symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+<symbol id="i-arrow-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+<symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4 11 13"/><path d="M18 14v5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 19V8a1.5 1.5 0 0 1 1.5-1.5H10"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></symbol>
+<symbol id="i-check-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.2 2.4 2.4 4.6-5"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v6c0 4.2 2.9 7.6 7 9 4.1-1.4 7-4.8 7-9V6l-7-3Z"/><path d="m9.2 12 2 2 3.6-4"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5v-15Z"/><path d="M5 19.5A1.5 1.5 0 0 1 6.5 21H19v-3"/><path d="M9 7.5h6M9 11h4"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 1.8"/></symbol>
+<symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 8.5 4.5L12 12 3.5 7.5 12 3Z"/><path d="m4 12.5 8 4.2 8-4.2M4 17l8 4.2 8-4.2"/></symbol>
+<symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 13.9 9l5.6 1.9-5.6 1.9L12 18.4 10.1 12.8 4.5 10.9 10.1 9 12 3.5Z"/></symbol>
+<symbol id="i-trend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 16.5 9 11l3.5 3.5L20.5 6"/><path d="M15.5 6h5v5"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.2" fill="currentColor" stroke="none"/><circle cx="4.5" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="4.5" cy="18" r="1.2" fill="currentColor" stroke="none"/></symbol>
+<symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.8 7 8.2 6 8.2-6"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.5" cy="8.5" r="3.5"/><path d="M3 20c0-3.3 2.9-5.5 6.5-5.5S16 16.7 16 20"/><path d="M16.5 5.6a3.4 3.4 0 0 1 0 6.6M18 14.8c2.1.7 3.5 2.3 3.5 4.4"/></symbol>
+</defs></svg>
+
+<header class="site-header" id="top">
+  <div class="wrap">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="#top" aria-label="CertPrep Hub home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 18.5V6l8-3.5L20 6v12.5L12 22l-8-3.5Z"/><path d="m8.8 12.2 2.2 2.2 4.4-4.8"/>
+          </svg>
+        </span>
+        <span>CertPrep Hub<small>Exam resources</small></span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#library">Exam library</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#study-tips">Study tips</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <div class="nav-actions">
+        <a class="btn btn-primary" href="#library">Browse exams</a>
+      </div>
+
+      <button class="nav-toggle" type="button" id="navToggle" aria-expanded="false" aria-controls="mobilePanel">
+        <svg class="icon-menu" aria-hidden="true"><use href="#i-menu"/></svg>
+        <svg class="icon-close" aria-hidden="true"><use href="#i-close"/></svg>
+        <span class="sr-only">Toggle navigation menu</span>
+      </button>
+    </nav>
+  </div>
+
+  <div class="mobile-panel" id="mobilePanel">
+    <a href="#library">Exam library</a>
+    <a href="#how-it-works">How it works</a>
+    <a href="#study-tips">Study tips</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
+    <a class="btn btn-primary btn-block" href="#library">Browse exams</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============================ HERO ============================ -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero-inner">
+      <div class="hero-grid">
+        <div>
+          <p class="hero-badge"><span class="dot" aria-hidden="true"></span>Updated for the 2026 exam cycle</p>
+          <h1 id="hero-title">Prepare for your certification with <span class="mark">confidence</span>, not guesswork.</h1>
+          <p class="lede">A curated, searchable library of preparation resources for cloud, security, networking, data and project-management certifications. Find exam-style practice questions, topic outlines and study guides for <span id="heroCount">100+</span> exams in one place.</p>
+
+          <div class="hero-cta">
+            <a class="btn btn-accent btn-lg" href="#library">
+              Browse the exam library
+              <svg aria-hidden="true"><use href="#i-arrow-right"/></svg>
+            </a>
+            <a class="btn btn-outline btn-lg" href="#how-it-works">How preparation works</a>
+          </div>
+
+          <div class="hero-stats">
+            <div><b id="statExams">0</b><span>Exams covered</span></div>
+            <div><b id="statDomains">0</b><span>Topic domains</span></div>
+            <div><b>100%</b><span>Free to browse</span></div>
+          </div>
+        </div>
+
+        <div class="finder">
+          <h2>Find your exam</h2>
+          <p class="sub">Search by exam code, vendor or topic — for example <em>AZ-104</em>, <em>Splunk</em> or <em>cloud</em>.</p>
+          <form class="finder-field" id="heroForm" role="search">
+            <label class="sr-only" for="heroSearch">Search certification exams</label>
+            <svg aria-hidden="true"><use href="#i-search"/></svg>
+            <input id="heroSearch" type="search" autocomplete="off" placeholder="Try “AZ-104”, “Oracle”, “Agile”…" aria-describedby="heroSearchHint">
+            <button class="btn btn-primary go" type="submit">Search</button>
+          </form>
+          <p class="sr-only" id="heroSearchHint">Submitting the search jumps to the exam library and filters the results.</p>
+          <div class="finder-chips" id="quickChips">
+            <span>Popular:</span>
+            <button type="button" data-q="AZ-104">AZ-104</button>
+            <button type="button" data-q="PMI-ACP">PMI-ACP</button>
+            <button type="button" data-q="Splunk">Splunk</button>
+            <button type="button" data-q="Cisco">Cisco</button>
+            <button type="button" data-q="Agile">Agile</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================== FEATURES ========================== -->
+  <section class="section" aria-labelledby="why-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow"><svg width="14" height="14" aria-hidden="true" style="stroke:currentColor"><use href="#i-spark"/></svg> Why candidates use this library</p>
+        <h2 id="why-title">Everything you need to plan a certification attempt</h2>
+        <p class="lede">One index instead of fifty browser tabs. Every entry links out to a preparation resource with practice material for that specific exam code.</p>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature">
+          <span class="ico" aria-hidden="true"><svg><use href="#i-check-circle"/></svg></span>
+          <h3>Curated &amp; reviewed</h3>
+          <p>Every link is checked against its exam code and title before it is added, so you land on the right material the first time.</p>
+        </article>
+        <article class="feature accent">
+          <span class="ico" aria-hidden="true"><svg><use href="#i-clock"/></svg></span>
+          <h3>Current for 2026</h3>
+          <p>Entries are refreshed as exam objectives change, with recently revised resources flagged on the card.</p>
+        </article>
+        <article class="feature">
+          <span class="ico" aria-hidden="true"><svg><use href="#i-list"/></svg></span>
+          <h3>Exam-style questions</h3>
+          <p>Resources focus on realistic question formats — scenario, multiple-response and drag-and-drop — matched to the vendor blueprint.</p>
+        </article>
+        <article class="feature accent">
+          <span class="ico" aria-hidden="true"><svg><use href="#i-layers"/></svg></span>
+          <h3>Organised by domain</h3>
+          <p>Filter across nine topic domains, from cloud infrastructure and security through to agile delivery and quality.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <!-- =========================== LIBRARY =========================== -->
+  <section class="section library" id="library" aria-labelledby="library-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow"><svg width="14" height="14" aria-hidden="true" style="stroke:currentColor"><use href="#i-book"/></svg> The exam library</p>
+        <h2 id="library-title">Browse preparation resources by exam</h2>
+        <p class="lede">Search the index, narrow it down by topic domain, and star the exams you are sitting so your shortlist is one click away.</p>
+      </div>
+
+      <div class="lib-toolbar">
+        <div class="search-box" id="searchBox">
+          <svg aria-hidden="true"><use href="#i-search"/></svg>
+          <label class="sr-only" for="libSearch">Filter exams by code, vendor or topic</label>
+          <input id="libSearch" type="search" autocomplete="off" placeholder="Filter exams — code, vendor or topic…">
+          <button class="clear" type="button" id="clearSearch" aria-label="Clear the filter">
+            <svg width="14" height="14" aria-hidden="true" style="stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round"><use href="#i-close"/></svg>
+          </button>
+        </div>
+
+        <div class="sort-wrap">
+          <label for="sortBy">Sort</label>
+          <select id="sortBy">
+            <option value="az">Exam code (A–Z)</option>
+            <option value="za">Exam code (Z–A)</option>
+            <option value="vendor">Vendor (A–Z)</option>
+            <option value="domain">Topic domain</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="filter-row" id="domainFilters" role="group" aria-label="Filter exams by topic domain">
+        <!-- domain chips injected by JS -->
+      </div>
+
+      <div class="lib-meta">
+        <p style="margin:0">Showing <strong id="resultCount">0</strong> of <strong id="totalCount">0</strong> exam resources
+          <span id="savedNote" hidden>· shortlisted only</span></p>
+        <button class="reset-link" type="button" id="resetFilters" hidden>Clear all filters</button>
+      </div>
+
+      <div class="grid" id="examGrid" aria-live="polite" aria-busy="false">
+        <!-- cards injected by JS -->
+      </div>
+
+      <div class="load-more">
+        <button class="btn btn-outline btn-lg" type="button" id="loadMore" hidden>
+          Show more exams
+          <svg aria-hidden="true"><use href="#i-arrow-right"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= HOW IT WORKS ======================= -->
+  <section class="section" id="how-it-works" aria-labelledby="hiw-title">
+    <div class="wrap">
+      <div class="section-head center">
+        <p class="eyebrow"><svg width="14" height="14" aria-hidden="true" style="stroke:currentColor"><use href="#i-target"/></svg> How it works</p>
+        <h2 id="hiw-title">A four-step path from “which exam?” to exam day</h2>
+        <p class="lede">Structure beats intensity. Most first-time passes come down to knowing the blueprint and practising under time pressure.</p>
+      </div>
+
+      <ol class="steps">
+        <li class="step">
+          <span class="num" aria-hidden="true"></span>
+          <h3>Pick your exam</h3>
+          <p>Search the library by code or vendor, then confirm the exact version on the certification body's own site before you commit.</p>
+        </li>
+        <li class="step">
+          <span class="num" aria-hidden="true"></span>
+          <h3>Map the blueprint</h3>
+          <p>Download the official exam objectives and weight each domain. Study time should follow those weights, not the chapter order of a book.</p>
+        </li>
+        <li class="step">
+          <span class="num" aria-hidden="true"></span>
+          <h3>Practise under pressure</h3>
+          <p>Work through question sets in timed blocks, then review every wrong answer until you can explain the reasoning out loud.</p>
+        </li>
+        <li class="step">
+          <span class="num" aria-hidden="true"></span>
+          <h3>Book and sit it</h3>
+          <p>Book only when two full mock runs land comfortably above the passing score. Then protect the day before the exam for rest.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ========================== STUDY TIPS ======================== -->
+  <section class="section tips" id="study-tips" aria-labelledby="tips-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow"><svg width="14" height="14" aria-hidden="true" style="stroke:currentColor"><use href="#i-trend"/></svg> Study strategy</p>
+        <h2 id="tips-title">Six habits that move the score</h2>
+        <p class="lede">Applicable whether you are sitting a fundamentals exam or a professional-level architecture paper.</p>
+      </div>
+
+      <div class="tip-grid">
+        <article class="tip">
+          <span class="ico" aria-hidden="true"><svg><use href="#i-list"/></svg></span>
+          <div><h3>Start from the objectives</h3><p>Vendors publish weighted domain lists. Turn each line into a checklist item and tick it off with evidence, not with a feeling.</p></div>
+        </article>
+        <article class="tip">
+          <span class="ico" aria-hidden="true"><svg><use href="#i-shield"/></svg></span>
+          <div><h3>Build, don't only read</h3><p>A lab hour beats three reading hours for infrastructure exams. Free tiers and sandboxes are enough for most blueprints.</p></div>
+        </article>
+        <article class="tip">
+          <span class="ico" aria-hidden="true"><svg><use href="#i-clock"/></svg></span>
+          <div><h3>Time every mock run</h3><p>Set the real clock from question one. Pacing is a separate skill and it is the most common reason strong candidates run out of time.</p></div>
+        </article>
+        <article class="tip">
+          <span class="ico" aria-hidden="true"><svg><use href="#i-trend"/></svg></span>
+          <div><h3>Log every mistake</h3><p>Keep one file of questions you got wrong, grouped by domain. Re-run that file two days before the exam instead of starting over.</p></div>
+        </article>
+        <article class="tip">
+          <span class="ico" aria-hidden="true"><svg><use href="#i-spark"/></svg></span>
+          <div><h3>Learn the distractors</h3><p>Wrong options usually encode a real misunderstanding. Being able to name the flaw in each distractor is a stronger signal than a correct guess.</p></div>
+        </article>
+        <article class="tip">
+          <span class="ico" aria-hidden="true"><svg><use href="#i-users"/></svg></span>
+          <div><h3>Explain it to someone</h3><p>Teaching a concept aloud exposes the gaps a multiple-choice score hides. Fifteen minutes a week is enough to catch them early.</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ FAQ ============================= -->
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="wrap">
+      <div class="section-head center">
+        <p class="eyebrow"><svg width="14" height="14" aria-hidden="true" style="stroke:currentColor"><use href="#i-check-circle"/></svg> Questions</p>
+        <h2 id="faq-title">Frequently asked questions</h2>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <h3 style="margin:0"><button class="faq-q" type="button" aria-expanded="false">What exactly is in this library?<span class="pm" aria-hidden="true"></span></button></h3>
+          <div class="faq-a"><div><p>Each card is one certification exam plus a link to a preparation resource for that exam — typically practice questions, a topic outline or a study guide. We do not host the material itself; the card points you to where it lives.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <h3 style="margin:0"><button class="faq-q" type="button" aria-expanded="false">How do I know I have the right exam version?<span class="pm" aria-hidden="true"></span></button></h3>
+          <div class="faq-a"><div><p>Always confirm on the certification body's own website before you book. Exam codes get retired and re-versioned — for example a <em>_V4.0</em> suffix or a year in the code — and the objectives can change between versions.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <h3 style="margin:0"><button class="faq-q" type="button" aria-expanded="false">How long should I prepare?<span class="pm" aria-hidden="true"></span></button></h3>
+          <div class="faq-a"><div><p>Fundamentals-level exams commonly take 15–30 hours over three weeks with some hands-on exposure. Associate and professional exams usually need 40–80 hours across six to ten weeks. Track hours per domain so you can see where the time actually goes.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <h3 style="margin:0"><button class="faq-q" type="button" aria-expanded="false">What score should I be hitting on practice runs?<span class="pm" aria-hidden="true"></span></button></h3>
+          <div class="faq-a"><div><p>Aim for 80–85% on a timed run of material you have not seen before, twice in a row. Scores on questions you have already answered are not a reliable predictor — repeat exposure inflates them.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <h3 style="margin:0"><button class="faq-q" type="button" aria-expanded="false">Can I save exams I plan to sit?<span class="pm" aria-hidden="true"></span></button></h3>
+          <div class="faq-a"><div><p>Yes — use the star on any card. Your shortlist is stored in your own browser only and nothing is sent anywhere. Use the <em>Shortlisted</em> filter to see just those exams.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <h3 style="margin:0"><button class="faq-q" type="button" aria-expanded="false">Is this site affiliated with the certification vendors?<span class="pm" aria-hidden="true"></span></button></h3>
+          <div class="faq-a"><div><p>No. CertPrep Hub is an independent index. All certification names, exam codes and logos are the property of their respective owners and are used here for identification only.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= CTA ============================ -->
+  <section class="cta-band" id="study-plan" aria-labelledby="cta-title">
+    <div class="wrap">
+      <div class="cta-inner">
+        <div>
+          <h2 id="cta-title">Get a study plan for your next exam</h2>
+          <p>Tell us the exam you are sitting and we will put together a week-by-week preparation outline: domain weights, a practice schedule and a mock-run timetable you can work from.</p>
+        </div>
+
+        <form class="plan-form" id="planForm" novalidate>
+          <div class="plan-fields">
+            <label for="planEmail">Email address</label>
+            <input id="planEmail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
+            <p class="err" id="planErr" role="alert"></p>
+
+            <label for="planExam">Exam you are preparing for</label>
+            <select id="planExam" name="exam">
+              <option value="">Select an exam from the library…</option>
+            </select>
+
+            <button class="btn btn-accent btn-block btn-lg" type="submit">Send me the outline</button>
+            <p class="hint">Demo form — nothing is transmitted and no data leaves your browser.</p>
+          </div>
+
+          <p class="form-ok" id="planOk" role="status">
+            <svg aria-hidden="true"><use href="#i-check-circle"/></svg>
+            <span id="planOkText">Thanks — your outline request was captured.</span>
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- =========================== FOOTER =========================== -->
+<footer class="site-footer" id="contact">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top" aria-label="CertPrep Hub home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 18.5V6l8-3.5L20 6v12.5L12 22l-8-3.5Z"/><path d="m8.8 12.2 2.2 2.2 4.4-4.8"/>
+            </svg>
+          </span>
+          <span>CertPrep Hub<small>Exam resources</small></span>
+        </a>
+        <p>An independent, searchable index of certification exam preparation resources — practice questions, topic outlines and study guides for the 2026 exam cycle.</p>
+      </div>
+
+      <div>
+        <h3>Library</h3>
+        <ul id="footDomains">
+          <li><a href="#library" data-foot-domain="Cloud &amp; Infrastructure">Cloud &amp; infrastructure</a></li>
+          <li><a href="#library" data-foot-domain="Security">Security</a></li>
+          <li><a href="#library" data-foot-domain="Networking &amp; Storage">Networking &amp; storage</a></li>
+          <li><a href="#library" data-foot-domain="Data &amp; AI">Data &amp; AI</a></li>
+          <li><a href="#library" data-foot-domain="Development &amp; DevOps">Development &amp; DevOps</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Prepare</h3>
+        <ul>
+          <li><a href="#how-it-works">How it works</a></li>
+          <li><a href="#study-tips">Study strategy</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#study-plan">Request a study plan</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Contact</h3>
+        <ul class="foot-contact">
+          <li><svg aria-hidden="true"><use href="#i-mail"/></svg><a href="/cdn-cgi/l/email-protection#e78f828b8b88a784829593979582978f9285c9829f868a978b82"><span class="__cf_email__" data-cfemail="325a575e5e5d7251574046424057425a47501c574a535f425e57">[email&#160;protected]</span></a></li>
+          <li><svg aria-hidden="true"><use href="#i-users"/></svg><span>Support replies within one working day</span></li>
+          <li><svg aria-hidden="true"><use href="#i-pin"/></svg><span>Serving candidates worldwide</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="disclaimer">
+      <strong style="color:#B7CFD3">Please note:</strong> CertPrep Hub is an independent resource index and is not affiliated with, endorsed by or sponsored by any certification body or vendor named on this page. All certification names, exam codes and marks are the property of their respective owners and are used for identification purposes only. Links open third-party resources; review their terms and your certification programme's rules before using any preparation material, and always confirm exam objectives on the vendor's official site.
+    </p>
+
+    <div class="foot-bottom">
+      <p style="margin:0">© <span id="year">2026</span> CertPrep Hub. All rights reserved.</p>
+      <nav aria-label="Footer">
+        <a href="#top">Back to top</a>
+        <a href="#faq">FAQ</a>
+        <a href="/cdn-cgi/l/email-protection#5038353c3c3f1033352224202235203825327e3528313d203c35">Contact</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" type="button" id="toTop" aria-label="Back to top">
+  <svg aria-hidden="true"><use href="#i-arrow-up"/></svg>
+</button>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const EXAM_DATA = {"domains": ["Cloud & Infrastructure", "Security", "Networking & Storage", "Data & AI", "Development & DevOps", "Project & Agile", "Business & Quality", "Education & Academic"], "exams": [{"c": "PEGAPCRSA80V1_2019", "t": "Pega Certified Senior System Architect (PCSSA) '19", "v": "Pega", "d": "Development & DevOps", "u": "https://wonderfulday.dk/forum/traade/6289/ultimate-success-verified-pegapcrsa80v1-2019-exam-dumps-2026", "fresh": true}, {"c": "CIS-SP", "t": "Certified in Security for Practitioners", "v": "ISC2", "d": "Security", "u": "https://wonderfulday.dk/forum/traade/6290/no1-updated-cis-sp-dumps-2026-online-practice-test", "fresh": true}, {"c": "H19-308_V4.0", "t": "HCSP-Presales-IP Network V4.0", "v": "Huawei", "d": "Networking & Storage", "u": "https://wonderfulday.dk/forum/traade/6291/fresh-release-h19-308-v40-exam-questions-prep", "fresh": true}, {"c": "Portworx-Enterprise-Professional", "t": "Portworx Enterprise Professional", "v": "Portworx", "d": "Cloud & Infrastructure", "u": "https://wonderfulday.dk/forum/traade/6292/pass-faster-with-portworx-enterprise-professional-latest-dumps-2026-update", "fresh": true}, {"c": "ACP-01101", "t": "Autodesk Certified Professional: AutoCAD for Design and Drafting", "v": "Autodesk", "d": "Development & DevOps", "u": "https://wonderfulday.dk/forum/traade/6293/how-to-approach-the-autodesk-acp-01101-exam-step-by-step-in-2026", "fresh": true}, {"c": "ACA-Operator", "t": "Alibaba Cloud Certified Associate — Cloud Computing Operator", "v": "Alibaba Cloud", "d": "Cloud & Infrastructure", "u": "https://wonderfulday.dk/forum/traade/6294/updated-aca-operator-dumps-2026-boost-your-alibaba-certification-success", "fresh": true}, {"c": "NSE6_FSM_AN-7.4", "t": "NSE 6 — FortiSandbox 7.4 Analyst", "v": "Fortinet", "d": "Security", "u": "https://wonderfulday.dk/forum/traade/6295/updated-trusted-nse6-fsm-an-74-dumps", "fresh": true}, {"c": "312-39", "t": "Certified Incident Handler (ECIH)", "v": "EC-Council", "d": "Security", "u": "https://wonderfulday.dk/forum/traade/6296/top-rated-updated-312-39-dumps", "fresh": true}, {"c": "PRINCE2-Agile-Practitioner", "t": "PRINCE2 Agile Practitioner", "v": "PeopleCert / AXELOS", "d": "Project & Agile", "u": "https://wonderfulday.dk/forum/traade/6297/top-reliable-prince2-agile-practitioner-dumps-2026-certification-questions", "fresh": true}, {"c": "XSIAM-Engineer", "t": "Cortex XSIAM Engineer", "v": "Palo Alto Networks", "d": "Security", "u": "https://wonderfulday.dk/forum/traade/6298/updated-2026-xsiam-engineer-dumps", "fresh": true}, {"c": "PostgreSQL-Essentials", "t": "PostgreSQL Essentials", "v": "PostgreSQL", "d": "Data & AI", "u": "https://www.instagram.com/prof.davidcooper/p/DdijI2FimGx/", "fresh": false}, {"c": "AZ-900", "t": "Microsoft Azure Fundamentals", "v": "Microsoft", "d": "Cloud & Infrastructure", "u": "https://www.instagram.com/prof.davidcooper/p/DdijObuigGO/", "fresh": false}, {"c": "NP-Con-102", "t": "NetApp Certified Storage Associate (NCSA)", "v": "NetApp", "d": "Networking & Storage", "u": "https://www.instagram.com/prof.davidcooper/p/DdijW0ICg2B/", "fresh": false}, {"c": "Professional-Cloud-Network-Engineer", "t": "Professional Cloud Network Engineer", "v": "Google Cloud", "d": "Cloud & Infrastructure", "u": "https://www.instagram.com/prof.davidcooper/p/Ddije-xikFZ/", "fresh": false}, {"c": "2V0-13.24", "t": "VMware vSphere 8.x Professional", "v": "VMware", "d": "Cloud & Infrastructure", "u": "https://www.instagram.com/prof.davidcooper/p/DdijkVSivMI/", "fresh": false}, {"c": "GCPM", "t": "Google Cloud Platform Management", "v": "Google Cloud", "d": "Cloud & Infrastructure", "u": "https://www.instagram.com/prof.davidcooper/p/Ddijpc9imLF/", "fresh": false}, {"c": "H19-341_V1.0", "t": "HCSP-Presales-Data Center Network V1.0", "v": "Huawei", "d": "Networking & Storage", "u": "https://www.instagram.com/prof.davidcooper/p/DdijugkitKN/", "fresh": false}, {"c": "CTAL-TM_Syll2012", "t": "Certified Tester Advanced Level — Test Manager (2012 syllabus)", "v": "ISTQB", "d": "Business & Quality", "u": "https://www.instagram.com/prof.davidcooper/p/DdijzdaCtig/", "fresh": false}, {"c": "B2C-Commerce-Developer", "t": "B2C Commerce Developer", "v": "Salesforce", "d": "Development & DevOps", "u": "https://www.instagram.com/prof.davidcooper/p/Ddij4ajik-R/", "fresh": false}, {"c": "C1000-147", "t": "IBM Certified Specialist", "v": "IBM", "d": "Development & DevOps", "u": "https://www.instagram.com/prof.davidcooper/p/Ddij9OvCtuQ/", "fresh": false}, {"c": "ACA-CloudNative", "t": "Alibaba Cloud Certified Associate — Cloud Native", "v": "Alibaba Cloud", "d": "Cloud & Infrastructure", "u": "https://rare-books.library.sites.carleton.edu/aca-cloudnative-dumps/updated-for-2026-aca-cloudnative-dumps?t=1789974183954", "fresh": true}, {"c": "CHRP-KE", "t": "Certified Human Resources Professional — Knowledge Exam", "v": "HRPA", "d": "Business & Quality", "u": "https://forum.linsoul.com/d/6991-official-chrp-ke-dumps-2026-verified-hrpa-questions-pdf", "fresh": true}, {"c": "OGEA-102", "t": "TOGAF 9 Part 2 — Certified", "v": "The Open Group", "d": "Business & Quality", "u": "https://forum.linsoul.com/d/6992-updated-2026-ogea-102-exam-dumps-advanced-practice-test-guide", "fresh": true}, {"c": "PMI-ACP", "t": "PMI Agile Certified Practitioner", "v": "PMI", "d": "Project & Agile", "u": "https://forum.linsoul.com/d/6993-latest-release-pmi-acp-dumps-2026-new-practice-questions-answers", "fresh": true}, {"c": "CTP", "t": "Certified Treasury Professional", "v": "AFP", "d": "Business & Quality", "u": "https://forum.linsoul.com/d/6994-expert-verified-ctp-dumps-2026-expert-practice-questions-answers", "fresh": true}, {"c": "100-140", "t": "Cisco Certified DevNet Associate", "v": "Cisco", "d": "Development & DevOps", "u": "https://forum.linsoul.com/d/6995-freshly-updated-100-140-dumps-2026-latest-practice-questions-answers", "fresh": true}, {"c": "4A0-AI1", "t": "Alteryx Certified Professional — AI", "v": "Alteryx", "d": "Data & AI", "u": "https://forum.linsoul.com/d/6996-verified-source-4a0-ai1-dumps-2026-authenticated-practice-questions", "fresh": true}, {"c": "NPPE", "t": "National Professional Practice Examination", "v": "APEGA", "d": "Education & Academic", "u": "https://forum.linsoul.com/d/6998-top-rated-nppe-dumps-2026-primary-practice-questions-answers", "fresh": true}, {"c": "MKT-101", "t": "Marketing Essentials", "v": "Marketing Institute", "d": "Business & Quality", "u": "https://forum.linsoul.com/d/6999-smart-choice-mkt-101-dumps-2026-essential-practice-questions", "fresh": true}, {"c": "Slack-Con-201", "t": "Slack Certified: Slack Administrator", "v": "Salesforce", "d": "Business & Quality", "u": "https://forum.linsoul.com/d/7000-pass-with-confidence-slack-con-201-dumps-2026", "fresh": true}, {"c": "EGMP2201", "t": "Enterprise GIS Management Professional", "v": "Esri", "d": "Data & AI", "u": "https://training.coursekey.com/eportfolios/4425/Home/Latest_EGMP2201_Dumps_by_Esri_2026_Exam_Practice", "fresh": true}, {"c": "CFE-Fraud-Investigations-and-Legal-Issues", "t": "CFE — Fraud Investigations & Legal Issues", "v": "ACFE", "d": "Business & Quality", "u": "https://training.coursekey.com/eportfolios/4426/Home/Updated_CFEFraudInvestigationsandLegalIssues_Dumps_with_Real_Questions", "fresh": true}, {"c": "500-420", "t": "Cisco AppDynamics Professional Implementer", "v": "Cisco", "d": "Development & DevOps", "u": "https://training.coursekey.com/eportfolios/4427/Home/Verified_500420_Dumps_by_Cisco_with_Latest_Answers", "fresh": true}, {"c": "XDR-Engineer", "t": "Cortex XDR Engineer", "v": "Palo Alto Networks", "d": "Security", "u": "https://training.coursekey.com/eportfolios/4428/Home/Premium_XDREngineer_Dumps__2026_Study_Guide", "fresh": true}, {"c": "1Z0-1106-2", "t": "Oracle Cloud Infrastructure AI Foundations Associate", "v": "Oracle", "d": "Data & AI", "u": "https://training.coursekey.com/eportfolios/4430/Home/Official_1Z011062_Dumps_by_Oracle_Latest_Preparation", "fresh": true}, {"c": "JN0-106", "t": "Juniper Networks Certified Associate — JNCIA-Junos (JN0-106)", "v": "Juniper", "d": "Networking & Storage", "u": "https://selene427.tawk.help/article/updated-juniper-jn0-106-exam-questions-dumps-2026", "fresh": true}, {"c": "CMQ-OE", "t": "Certified Manager of Quality/Organizational Excellence", "v": "ASQ", "d": "Business & Quality", "u": "https://selene427.tawk.help/article/updated-cmq-oe-exam-questions-dumps-2026?preview=1&token=eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Imtub3dsZWRnZS1iYXNlLXNlcnZpY2UtMjAyMDA3MTYifQ.eyJpYXQiOjE3ODk5ODI3NDAsImV4cCI6MTc4OTk4OTk0MCwianRpIjoib01BZ0RZRnFBMEcxTkxOejVUREczIn0.dtpz5Ns6WihPY__6QwpxPH4cwPK2By-ij8ROhy7IauGToM4rlmpuczd8JDQJ2H2JxK9awNFtqPWknGTkzF0vJQ", "fresh": true}, {"c": "AD0-E605", "t": "Adobe Commerce Developer Professional", "v": "Adobe", "d": "Development & DevOps", "u": "https://selene427.tawk.help/article/updated-adobe-ad0-e605-dumps-for-2026-exam", "fresh": true}, {"c": "ADX261", "t": "Administrator Certification for Setup and Maintenance (Winter '26)", "v": "Salesforce", "d": "Development & DevOps", "u": "https://selene427.tawk.help/article/updated-salesforce-adx261-dumps-for-2026-exam", "fresh": true}, {"c": "702-100", "t": "SUSE Certified Administrator in Enterprise Linux 15", "v": "SUSE", "d": "Development & DevOps", "u": "https://selene427.tawk.help/article/updated-702-100-dumps-for-2026-exam", "fresh": true}, {"c": "S90.02", "t": "SOA Certified Professional", "v": "Arcitura", "d": "Development & DevOps", "u": "https://selene427.tawk.help/article/updated-arcitura-education-s90-02-dumps-for-2026-exam", "fresh": true}, {"c": "NS0-093", "t": "NetApp Certified Data Administrator", "v": "NetApp", "d": "Networking & Storage", "u": "https://selene427.tawk.help/article/updated-ns0-093-dumps-for-2026-exam", "fresh": true}, {"c": "CQIA", "t": "Certified Quality Improvement Associate", "v": "ASQ", "d": "Business & Quality", "u": "https://selene427.tawk.help/article/updated-cqia-asq-dumps-for-2026-exam", "fresh": true}, {"c": "AZ-104", "t": "Microsoft Azure Administrator", "v": "Microsoft", "d": "Cloud & Infrastructure", "u": "https://selene427.tawk.help/article/updated-microsoft-az-104-dumps-for-2026-exam", "fresh": true}, {"c": "SOL-C01", "t": "Solutions Architect", "v": "SolarWinds", "d": "Networking & Storage", "u": "https://selene427.tawk.help/article/updated-sol-c01-dumps-for-2026-exam", "fresh": true}, {"c": "H11-861_V4.0", "t": "HCIA-UC V4.0", "v": "Huawei", "d": "Networking & Storage", "u": "https://fanspo.com/nba/s/wizards/p/6IuKeiIl-EebLq/how-no-1-h11-861_v40-exam-dumps-help-you-pass-on-the-first-attempt", "fresh": false}, {"c": "MSP-Foundation", "t": "MSP Foundation", "v": "PeopleCert / APM", "d": "Project & Agile", "u": "https://fanspo.com/nba/s/wizards/p/jndgP4sIPtBwQo/how-no-1-msp-foundation-exam-dumps-increase-your-chances-of-passing", "fresh": false}, {"c": "EX432", "t": "Red Hat Certified Specialist in OpenShift Automation and Integration", "v": "Red Hat", "d": "Cloud & Infrastructure", "u": "https://fanspo.com/nba/s/wizards/p/5NWIcXJcD0qizL/how-no-1-ex432-exam-dumps-help-you-achieve-a-passing-score", "fresh": false}, {"c": "NCP-AII", "t": "Nutanix Certified Professional — AI", "v": "Nutanix", "d": "Data & AI", "u": "https://fanspo.com/nba/s/wizards/p/D9aVBCZZykyqtK/how-no-1-ncp-aii-exam-dumps-prepare-you-to-pass-with-confidence", "fresh": false}, {"c": "Rev-Con-201", "t": "Atlassian Certified: Confluence Cloud Administrator", "v": "Atlassian", "d": "Business & Quality", "u": "https://fanspo.com/nba/s/wizards/p/p8Jic1NGZZYnD5/how-no-1-rev-con-201-exam-dumps-help-you-pass-without-retaking", "fresh": false}, {"c": "ACD301", "t": "Alteryx Certified Professional — Designer Core", "v": "Alteryx", "d": "Data & AI", "u": "https://fanspo.com/nba/s/wizards/p/hO3qzv0uWhxLQe/how-no-1-acd301-exam-dumps-support-first-time-exam-success", "fresh": false}, {"c": "D-PEXE-IN-A-00", "t": "PowerEdge Install and Maintain Achievement", "v": "Dell Technologies", "d": "Networking & Storage", "u": "https://fanspo.com/nba/s/wizards/p/G-rt6mGLOj3229/how-no-1-d-pexe-in-a-00-exam-dumps-help-you-prepare-to-pass-faster", "fresh": false}, {"c": "Salesforce-MuleSoft-Developer-II", "t": "MuleSoft Developer Level II", "v": "Salesforce", "d": "Development & DevOps", "u": "https://fanspo.com/nba/s/wizards/p/Q5QLTXAR2Rqfjd/how-no-1-salesforce-mulesoft-developer-ii-exam-dumps-make-passing-your-certification-easier", "fresh": false}, {"c": "CRT-250", "t": "Sales Representative", "v": "Salesforce", "d": "Business & Quality", "u": "https://fanspo.com/nba/s/wizards/p/poFx-QSowSfwMH/how-no-1-crt-250-exam-dumps-help-you-reach-your-certification-goal", "fresh": false}, {"c": "Integrated-Physical-Sciences", "t": "NCEES FE — Integrated Physical Sciences", "v": "NCEES", "d": "Education & Academic", "u": "https://fanspo.com/nba/s/wizards/p/CYt4MChOj3zX08/how-no-1-integrated-physical-sciences-exam-dumps-build-confidence-for-exam-day", "fresh": false}, {"c": "CIMAPRA19-P03-1", "t": "CIMA Professional — P3 Risk Management, E1 case study", "v": "CIMA", "d": "Business & Quality", "u": "https://bestdori.com/community/posts/252515/vedcert1-CIMAPRA19-P03-1-Exam-Questions-for-Certification-Success", "fresh": false}, {"c": "D-RP-DY-A-24", "t": "Data Protection and Recovery Achievement", "v": "Dell Technologies", "d": "Networking & Storage", "u": "https://bestdori.com/community/posts/252517/vedcert1-NO-1-D-RP-DY-A-24-Exam-Dumps-Practice-Test-2026", "fresh": true}, {"c": "OG0-093", "t": "TOGAF 9 Combined Part 1 and Part 2", "v": "The Open Group", "d": "Business & Quality", "u": "https://bestdori.com/community/posts/252533/vedcert1-Why-Top-Choice-OG0-093-Exam-Dumps-Beat-Bulky-Textbooks", "fresh": false}, {"c": "CCPenX-Az", "t": "Certified Penetration Testing Expert — Azure", "v": "EC-Council", "d": "Security", "u": "https://bestdori.com/community/posts/252536/vedcert1-How-Updated-CCPenX-Az-Exam-Dumps-Boost-Your-Score-Fast", "fresh": true}, {"c": "CLOUDF", "t": "DevOps Institute — Cloud Computing Foundation", "v": "DevOps Institute", "d": "Cloud & Infrastructure", "u": "https://bestdori.com/community/posts/252538/vedcert1-Why-New-CLOUDF-Exam-Dumps-Cut-Your-Study-Time-in-Half", "fresh": true}, {"c": "Cybersecurity-Architecture-and-Engineering", "t": "Cybersecurity Architecture and Engineering", "v": "Cybersecurity", "d": "Security", "u": "https://bestdori.com/community/posts/252540/vedcert1-NO-1-Cybersecurity-Architecture-and-Engineering-Exam-Dumps", "fresh": false}, {"c": "GED-Reading", "t": "GED Reasoning Through Language Arts — Reading", "v": "GED", "d": "Education & Academic", "u": "https://bestdori.com/community/posts/252543/vedcert1-Fresh-Release-GED-Reading-Latest-Dumps-Practice-Questions", "fresh": true}, {"c": "OMG-OCSMP-MBI300", "t": "OCSMP Model Builder — Intermediate (OMG-OCSMP-MBI300)", "v": "OMG", "d": "Development & DevOps", "u": "https://bestdori.com/community/posts/252546/vedcert1-Top-Rated-OMG-OCSMP-MBI300-Verified-Updated-Dumps", "fresh": true}, {"c": "020-222", "t": "Certification Exam 020-222", "v": "Other", "d": "Development & DevOps", "u": "https://bestdori.com/community/posts/252548/vedcert1-Expert-Choice-020-222-Updated-Dumps", "fresh": true}, {"c": "CAMS", "t": "Certified Anti-Money Laundering Specialist", "v": "ACAMS", "d": "Business & Quality", "u": "https://bestdori.com/community/posts/252551/vedcert1-Verified-2026-Update-CAMS-Exam-Dumps", "fresh": true}, {"c": "DEVOPSF", "t": "DevOps Foundation", "v": "DevOps Institute", "d": "Development & DevOps", "u": "https://profit.ly/user/kurrkupps/blog/current-2026-release-devopsf-dumps-with-verified-answers", "fresh": true}, {"c": "ACD101", "t": "Alteryx Designer Core Certification", "v": "Alteryx", "d": "Data & AI", "u": "https://profit.ly/user/kurrkupps/blog/acd101-dumps-that-make-preparation-easier", "fresh": false}, {"c": "ECBA", "t": "Entry Certificate in Business Analysis", "v": "IIBA", "d": "Business & Quality", "u": "https://profit.ly/user/kurrkupps/blog/confidence-builder-ecba-dumps-for-2026", "fresh": true}, {"c": "AD0-E722", "t": "Adobe Commerce Business Practitioner Professional", "v": "Adobe", "d": "Development & DevOps", "u": "https://profit.ly/user/kurrkupps/blog/updated-ad0-e722-dumps-that-students-trust", "fresh": true}, {"c": "CTL-001", "t": "Certified Technical Leader", "v": "Management", "d": "Business & Quality", "u": "https://profit.ly/user/kurrkupps/blog/ctl-001-dumps-for-confident-certification-preparation", "fresh": false}, {"c": "Plat-Admn-202", "t": "ServiceNow Certified System Administrator — IT Service Management", "v": "ServiceNow", "d": "Development & DevOps", "u": "https://profit.ly/user/kurrkupps/blog/master-the-exam-with-trusted-plat-admn-202-dumps", "fresh": false}, {"c": "Talend-Core-Developer", "t": "Talend Data Integration Core Developer", "v": "Qlik", "d": "Data & AI", "u": "https://profit.ly/user/kurrkupps/blog/talend-core-developer-dumps-updated-for-todays-certification-exam", "fresh": true}, {"c": "MS-700", "t": "Managing Microsoft Teams", "v": "Microsoft", "d": "Development & DevOps", "u": "https://profit.ly/user/kurrkupps/blog/study-with-confidence-using-ms-700-dumps", "fresh": false}, {"c": "H19-316", "t": "HCSP-Presales-Data Center Facility", "v": "Huawei", "d": "Networking & Storage", "u": "https://profit.ly/user/kurrkupps/blog/students-choice-2026-h19-316-dumps-with-verified-questions", "fresh": true}, {"c": "CPUX-F", "t": "UXQB Certified Professional for Usability and UX — Foundation", "v": "UXQB", "d": "Development & DevOps", "u": "https://profit.ly/user/kurrkupps/blog/prepare-for-cpux-f-exam-with-updated-dumps-2026", "fresh": true}, {"c": "CBAP", "t": "Certified Business Analysis Professional", "v": "IIBA", "d": "Business & Quality", "u": "https://app.talkshoe.com/show/cbap-exam-questions-with-realistic-practice-sets-2026", "fresh": true}, {"c": "NCA", "t": "National Certified Architect", "v": "Architecture", "d": "Education & Academic", "u": "https://app.talkshoe.com/show/top-rated-2026-nca-exam-dumps-with-verified-questions-answers", "fresh": true}, {"c": "050-6201-ARCHERASC01", "t": "Archer Associate Administrator", "v": "RSA", "d": "Security", "u": "https://app.talkshoe.com/show/050-6201-archerasc01-authentic-exam-questions-2026-with-confirmed-answers", "fresh": true}, {"c": "SPLK-1001", "t": "Splunk Core Certified User", "v": "Splunk", "d": "Data & AI", "u": "https://app.talkshoe.com/show/no-1-up-to-date-splk-1001-practice-questions-2026", "fresh": true}, {"c": "CIS-HAM", "t": "Certified Implementation Specialist — Hardware Asset Management", "v": "ServiceNow", "d": "Development & DevOps", "u": "https://app.talkshoe.com/show/updated-2026-cis-ham-exam-dumps-with-real-exam-style-questions", "fresh": true}, {"c": "AZ-400", "t": "Designing and Implementing Microsoft DevOps Solutions", "v": "Microsoft", "d": "Development & DevOps", "u": "https://app.talkshoe.com/show/az-400-prep-guide-2026-with-verified-questions-expert-reviewed-answers", "fresh": true}, {"c": "S90.20", "t": "SOA Certified Architect", "v": "Arcitura", "d": "Development & DevOps", "u": "https://app.talkshoe.com/show/s90-20-latest-questions-pdf-with-answers-2026", "fresh": true}, {"c": "300-420", "t": "Implementing Cisco Collaboration Cloud and Edge Solutions (CLCEI)", "v": "Cisco", "d": "Networking & Storage", "u": "https://app.talkshoe.com/show/no-1-real-300-420-exam-questions-with-accurate-answers", "fresh": false}, {"c": "2V0-17.25", "t": "VMware vSAN 8.x Specialist", "v": "VMware", "d": "Cloud & Infrastructure", "u": "https://app.talkshoe.com/show/2v0-17-25-question-bank-2026-with-updated-practice-questions", "fresh": true}, {"c": "1Z0-809", "t": "Java SE 8 Programmer II", "v": "Oracle", "d": "Development & DevOps", "u": "https://app.talkshoe.com/show/fresh-2026-1z0-809-real-exam-questions-with-verified-answers", "fresh": true}, {"c": "VMCE_v12", "t": "Veeam Certified Engineer (VMCE) v12", "v": "Veeam", "d": "Networking & Storage", "u": "https://www.molecularcloud.org/p/expert-verified-vmce_v12-exam-dumps-2026", "fresh": true}, {"c": "1Z0-829", "t": "Java SE 21 Developer", "v": "Oracle", "d": "Development & DevOps", "u": "https://www.molecularcloud.org/p/2026-verified-edition-1z0-829-latest-real-exam-questions", "fresh": true}, {"c": "312-85", "t": "Certified Incident Handling and Digital Forensics", "v": "EC-Council", "d": "Security", "u": "https://www.molecularcloud.org/p/newly-updated-2026-312-85-real-exam-questions", "fresh": true}, {"c": "300-510", "t": "Implementing Cisco Service Provider Network Core Technologies (SPCORE)", "v": "Cisco", "d": "Networking & Storage", "u": "https://www.molecularcloud.org/p/student-preferred-choice-300-510-updated-practice-questions-for-exam-success", "fresh": true}, {"c": "CIMAPRA17-BA3-1", "t": "CIMA Certificate in Business Accounting — BA3 Fundamentals of Financial Accounting", "v": "CIMA", "d": "Business & Quality", "u": "https://www.molecularcloud.org/p/top-rated-choice-cimapra17-ba3-1-real-exam-dumps-practice-questions-2026", "fresh": true}, {"c": "1Z0-182", "t": "Oracle Cloud Infrastructure 2025 Foundations Associate", "v": "Oracle", "d": "Cloud & Infrastructure", "u": "https://www.molecularcloud.org/p/oracle-1z0-182-dumps-2026-latest-practice-questions", "fresh": true}, {"c": "1D0-61C", "t": "HTML5 Application Developer", "v": "W3C / CIW", "d": "Development & DevOps", "u": "https://www.molecularcloud.org/p/1d0-61c-dumps-2026-updated-exam-questions", "fresh": true}, {"c": "ITIL-4-Specialist-Monitor-Support-Fulfil", "t": "ITIL 4 Specialist — Monitor, Support and Fulfil", "v": "PeopleCert / AXELOS", "d": "Project & Agile", "u": "https://www.molecularcloud.org/p/itil-4-specialist-monitor-support-fulfil-dumps-2026-verified-questions-answers", "fresh": true}, {"c": "810-01", "t": "Certification Exam 810-01", "v": "Other", "d": "Development & DevOps", "u": "https://www.molecularcloud.org/p/810-01-dumps-2026-real-exam-practice-questions", "fresh": true}, {"c": "NS0-604", "t": "NetApp Certified Implementation Engineer — Hybrid Cloud", "v": "NetApp", "d": "Networking & Storage", "u": "https://www.molecularcloud.org/p/ns0-604-dumps-2026-premium-practice-questions", "fresh": true}, {"c": "050-11-CARSANWLN01", "t": "RSA Certified Administrator — RSA Security Analytics", "v": "RSA", "d": "Security", "u": "https://xfdev.yesterdaystractors.com/index.php?threads/1865737/", "fresh": false}, {"c": "L4M5", "t": "CIPS Level 4 Diploma — Module 5: Supply Chain Management", "v": "CIPS", "d": "Business & Quality", "u": "https://xfdev.yesterdaystractors.com/index.php?threads/1865764/", "fresh": false}, {"c": "L5M8", "t": "CIPS Level 5 Diploma — Module 8: Supply Chain Innovation", "v": "CIPS", "d": "Business & Quality", "u": "https://xfdev.yesterdaystractors.com/index.php?threads/1865801/", "fresh": false}, {"c": "PSPO-II", "t": "Professional Scrum Product Owner II", "v": "Scrum.org", "d": "Project & Agile", "u": "https://xfdev.yesterdaystractors.com/index.php?threads/1865843/", "fresh": false}, {"c": "SPLK-2002", "t": "Splunk Core Certified Power User", "v": "Splunk", "d": "Data & AI", "u": "https://xfdev.yesterdaystractors.com/index.php?threads/1865858/", "fresh": false}, {"c": "Databricks-Machine-Learning-Associate", "t": "Databricks Certified Machine Learning Associate", "v": "Databricks", "d": "Data & AI", "u": "https://xfdev.yesterdaystractors.com/index.php?threads/1865867/", "fresh": false}, {"c": "L3M1", "t": "CIPS Level 3 Certificate — Module 1: Procurement Principles", "v": "CIPS", "d": "Business & Quality", "u": "https://xfdev.yesterdaystractors.com/index.php?threads/1865910/", "fresh": false}, {"c": "CIS-HR", "t": "Certified Implementation Specialist — HR Service Delivery", "v": "ServiceNow", "d": "Development & DevOps", "u": "https://xfdev.yesterdaystractors.com/index.php?threads/1865925/", "fresh": false}, {"c": "NS0-593", "t": "NetApp Certified Implementation Engineer — SAN Specialist, E-Series", "v": "NetApp", "d": "Networking & Storage", "u": "https://xfdev.yesterdaystractors.com/index.php?threads/1865942/", "fresh": false}, {"c": "PEGACPBA24V1", "t": "Pega Certified Business Architect '24 (PCBA)", "v": "Pega", "d": "Development & DevOps", "u": "https://xfdev.yesterdaystractors.com/index.php?threads/1865985/", "fresh": false}]};
+/* =====================================================================
+   CertPrep Hub — application script (vanilla JS, no dependencies)
+   Sections: helpers · state · rendering · filters · UI wiring
+   ===================================================================== */
+(function () {
+  'use strict';
+
+  /* ---------------------------------------------------------- helpers */
+  var $ = function (sel, root) { return (root || document).querySelector(sel); };
+  var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  /* "AZ-104" -> "az 104" so hyphens, dots and underscores never break a search */
+  function norm(s) {
+    return String(s).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  }
+
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* CSS.escape is everywhere modern, but stay safe for older engines */
+  function cssEsc(value) {
+    if (window.CSS && typeof window.CSS.escape === 'function') return window.CSS.escape(value);
+    return String(value).replace(/["\\]/g, '\\$&');
+  }
+
+  /* ------------------------------------------------------ shortlist IO */
+  var STORE_KEY = 'certprephub.shortlist.v1';
+
+  function readSaved() {
+    try {
+      var raw = window.localStorage.getItem(STORE_KEY);
+      var list = raw ? JSON.parse(raw) : [];
+      return Array.isArray(list) ? list : [];
+    } catch (e) { return []; }
+  }
+
+  function writeSaved(list) {
+    try { window.localStorage.setItem(STORE_KEY, JSON.stringify(list)); } catch (e) { /* private mode: keep in memory */ }
+  }
+
+  /* ------------------------------------------------------------ state */
+  var PAGE_SIZE = 24;
+  var saved = readSaved();
+  var state = { q: '', domain: '', sort: 'az', savedOnly: false, visible: PAGE_SIZE };
+
+  /* -------------------------------------------------------- derived data */
+  var EXAMS = EXAM_DATA.exams.map(function (x) {
+    x.hay = norm([x.c, x.t, x.v, x.d].join(' '));
+    x.saved = saved.indexOf(x.c) !== -1;
+    return x;
+  });
+
+  var domainCounts = {};
+  EXAMS.forEach(function (x) { domainCounts[x.d] = (domainCounts[x.d] || 0) + 1; });
+
+  var byCode = {};
+  EXAMS.forEach(function (x) { byCode[x.c] = x; });
+
+  var COLLATOR = ('Intl' in window) ? new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' }) : null;
+  function cmp(a, b) { return COLLATOR ? COLLATOR.compare(a, b) : (a < b ? -1 : a > b ? 1 : 0); }
+
+  function currentList() {
+    var terms = norm(state.q).split(' ').filter(Boolean);
+    var list = EXAMS.filter(function (x) {
+      if (state.domain && x.d !== state.domain) return false;
+      if (state.savedOnly && !x.saved) return false;
+      if (!terms.length) return true;
+      return terms.every(function (t) { return x.hay.indexOf(t) !== -1; });
+    });
+
+    var sorters = {
+      az: function (a, b) { return cmp(a.c, b.c); },
+      za: function (a, b) { return cmp(b.c, a.c); },
+      vendor: function (a, b) { return cmp(a.v, b.v) || cmp(a.c, b.c); },
+      domain: function (a, b) { return cmp(a.d, b.d) || cmp(a.c, b.c); }
+    };
+    return list.sort(sorters[state.sort] || sorters.az);
+  }
+
+  /* ------------------------------------------------------------- markup */
+  function cardHTML(x) {
+    return '<article class="card" data-code="' + esc(x.c) + '">' +
+      '<div class="card-top">' +
+        '<span class="vendor">' + esc(x.v) + '</span>' +
+        '<button class="save-btn" type="button" data-save="' + esc(x.c) + '" aria-pressed="' + (x.saved ? 'true' : 'false') + '"' +
+          ' aria-label="' + (x.saved ? 'Remove ' : 'Add ') + esc(x.c) + ' ' + (x.saved ? 'from' : 'to') + ' shortlist" title="Shortlist this exam">' +
+          '<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+            '<path d="m12 4 2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 4Z"/>' +
+          '</svg>' +
+          '<span class="sr-only">Shortlist</span>' +
+        '</button>' +
+      '</div>' +
+      '<p class="code">' + esc(x.c) + '</p>' +
+      '<h3>' + esc(x.t) + '</h3>' +
+      '<div class="card-tags"><span class="tag">' + esc(x.d) + '</span></div>' +
+      '<div class="card-foot">' +
+        (x.fresh
+          ? '<span class="updated"><svg aria-hidden="true"><use href="#i-check-circle"/></svg>Updated 2026</span>'
+          : '<span class="updated" style="color:var(--text-muted)"><svg aria-hidden="true" style="stroke:var(--text-muted)"><use href="#i-book"/></svg>Study material</span>') +
+        '<a class="card-link" href="' + esc(x.u) + '" target="_blank" rel="noopener noreferrer nofollow"' +
+          ' aria-label="Open preparation resource for ' + esc(x.c) + ' — ' + esc(x.t) + ' (opens in a new tab)">' +
+          'Open resource<svg aria-hidden="true"><use href="#i-external"/></svg></a>' +
+      '</div>' +
+    '</article>';
+  }
+
+  function emptyHTML() {
+    return '<div class="empty">' +
+      '<h3>No exams match that filter</h3>' +
+      '<p>Try a shorter search term — a vendor name like “Oracle”, a topic like “cloud”, or part of an exam code.</p>' +
+      '<button class="btn btn-outline" type="button" data-reset>Clear all filters</button>' +
+    '</div>';
+  }
+
+  /* ---------------------------------------------------------- rendering */
+  var grid = $('#examGrid');
+  var loadMore = $('#loadMore');
+  var resultCount = $('#resultCount');
+  var totalCount = $('#totalCount');
+  var savedNote = $('#savedNote');
+  var resetBtn = $('#resetFilters');
+  var searchInput = $('#libSearch');
+  var searchBox = $('#searchBox');
+  var savedChip = null;
+
+  function render() {
+    var list = currentList();
+    var shown = list.slice(0, state.visible);
+
+    grid.setAttribute('aria-busy', 'true');
+    grid.innerHTML = shown.length ? shown.map(cardHTML).join('') : emptyHTML();
+    grid.setAttribute('aria-busy', 'false');
+
+    resultCount.textContent = shown.length;
+    totalCount.textContent = list.length;
+    savedNote.hidden = !state.savedOnly;
+    loadMore.hidden = list.length <= shown.length;
+    if (!loadMore.hidden) {
+      loadMore.firstChild.nodeValue = 'Show ' + Math.min(PAGE_SIZE, list.length - shown.length) + ' more ';
+    }
+    searchBox.classList.toggle('has-value', searchInput.value.length > 0);
+
+    var filtering = state.q !== '' || state.domain !== '' || state.savedOnly || state.sort !== 'az';
+    resetBtn.hidden = !filtering;
+    syncChips();
+  }
+
+  function buildDomainChips() {
+    var host = $('#domainFilters');
+    var html = '<button class="chip" type="button" data-domain="" aria-pressed="true">All exams<span class="n">' + EXAMS.length + '</span></button>';
+
+    EXAM_DATA.domains.forEach(function (d) {
+      if (!domainCounts[d]) return;
+      html += '<button class="chip" type="button" data-domain="' + esc(d) + '" aria-pressed="false">' + esc(d) +
+              '<span class="n">' + domainCounts[d] + '</span></button>';
+    });
+
+    var savedCount = EXAMS.filter(function (x) { return x.saved; }).length;
+    html += '<button class="chip saved" type="button" data-saved aria-pressed="' + (state.savedOnly ? 'true' : 'false') + '">' +
+            '<svg class="ico-star" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 4 2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4-3.9-3.8 5.4-.8L12 4Z"/></svg>' +
+            'Shortlisted<span class="n">' + savedCount + '</span></button>';
+
+    host.innerHTML = html;
+    savedChip = $('[data-saved]', host);
+  }
+
+  function syncChips() {
+    $$('#domainFilters .chip[data-domain]').forEach(function (chip) {
+      chip.setAttribute('aria-pressed', chip.getAttribute('data-domain') === state.domain ? 'true' : 'false');
+    });
+    if (savedChip) savedChip.setAttribute('aria-pressed', state.savedOnly ? 'true' : 'false');
+  }
+
+  /* -------------------------------------------------------- interactions */
+  function toggleSave(code) {
+    var exam = byCode[code];
+    if (!exam) return;
+    var i = saved.indexOf(code);
+    if (i === -1) { saved.push(code); exam.saved = true; } else { saved.splice(i, 1); exam.saved = false; }
+    writeSaved(saved);
+
+    var btn = $('[data-save="' + cssEsc(code) + '"]', grid);
+    if (btn) {
+      btn.setAttribute('aria-pressed', exam.saved ? 'true' : 'false');
+      btn.setAttribute('aria-label', (exam.saved ? 'Remove ' : 'Add ') + code + (exam.saved ? ' from' : ' to') + ' shortlist');
+    }
+    var counter = savedChip && $('.n', savedChip);
+    if (counter) counter.textContent = saved.length;
+    if (state.savedOnly) render();
+  }
+
+  grid.addEventListener('click', function (e) {
+    var saveBtn = e.target.closest('[data-save]');
+    if (saveBtn) { toggleSave(saveBtn.getAttribute('data-save')); return; }
+    if (e.target.closest('[data-reset]')) resetAll();
+  });
+
+  $('#domainFilters').addEventListener('click', function (e) {
+    var chip = e.target.closest('.chip');
+    if (!chip) return;
+    if (chip.hasAttribute('data-saved')) {
+      state.savedOnly = !state.savedOnly;
+    } else {
+      state.domain = chip.getAttribute('data-domain') || '';
+    }
+    state.visible = PAGE_SIZE;
+    render();
+  });
+
+  var searchTimer = null;
+  searchInput.addEventListener('input', function () {
+    window.clearTimeout(searchTimer);
+    searchTimer = window.setTimeout(function () {
+      state.q = searchInput.value;
+      state.visible = PAGE_SIZE;
+      render();
+    }, 90);
+  });
+
+  $('#clearSearch').addEventListener('click', function () {
+    searchInput.value = '';
+    state.q = '';
+    state.visible = PAGE_SIZE;
+    searchInput.focus();
+    render();
+  });
+
+  $('#sortBy').addEventListener('change', function (e) {
+    state.sort = e.target.value;
+    state.visible = PAGE_SIZE;
+    render();
+  });
+
+  loadMore.addEventListener('click', function () {
+    state.visible += PAGE_SIZE;
+    render();
+  });
+
+  function resetAll() {
+    state.q = '';
+    state.domain = '';
+    state.savedOnly = false;
+    state.sort = 'az';
+    state.visible = PAGE_SIZE;
+    searchInput.value = '';
+    $('#sortBy').value = 'az';
+    render();
+  }
+  resetBtn.addEventListener('click', resetAll);
+
+  /* smooth-scroll helpers that degrade gracefully on engines without the API */
+  function scrollToEl(el) {
+    if (!el) return;
+    if (typeof el.scrollIntoView === 'function') {
+      el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    } else if (el.getBoundingClientRect) {
+      window.scrollTo(0, window.pageYOffset + el.getBoundingClientRect().top);
+    }
+  }
+
+  function scrollToTop() {
+    if (typeof window.scrollTo === 'function') {
+      window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+    }
+  }
+
+  /* hero search -> library */
+  var heroSearch = $('#heroSearch');
+  function runHeroSearch(term) {
+    state.domain = '';
+    state.savedOnly = false;
+    state.q = term;
+    state.visible = PAGE_SIZE;
+    searchInput.value = term;
+    render();
+  }
+
+  $('#heroForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    runHeroSearch(heroSearch.value.trim());
+    scrollToEl($('#library'));
+    heroSearch.blur();
+  });
+
+  $('#quickChips').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-q]');
+    if (!btn) return;
+    var term = btn.getAttribute('data-q');
+    heroSearch.value = term;
+    runHeroSearch(term);
+    scrollToEl($('#library'));
+  });
+
+  /* footer domain shortcuts */
+  $$('[data-foot-domain]').forEach(function (link) {
+    link.addEventListener('click', function () {
+      state.domain = link.getAttribute('data-foot-domain');
+      state.q = '';
+      state.savedOnly = false;
+      state.visible = PAGE_SIZE;
+      searchInput.value = '';
+      render();
+    });
+  });
+
+  /* keyboard: "/" focuses the filter box, Esc clears it */
+  document.addEventListener('keydown', function (e) {
+    var tag = (e.target.tagName || '').toLowerCase();
+    var typing = tag === 'input' || tag === 'select' || tag === 'textarea' || e.target.isContentEditable;
+    if (e.key === '/' && !typing) {
+      e.preventDefault();
+      searchInput.focus();
+      searchInput.select();
+    } else if (e.key === 'Escape' && e.target === searchInput && searchInput.value) {
+      searchInput.value = '';
+      state.q = '';
+      render();
+    }
+  });
+
+  /* ------------------------------------------------------- study plan form */
+  var planExam = $('#planExam');
+  EXAMS.slice().sort(function (a, b) { return cmp(a.c, b.c); }).forEach(function (x) {
+    var opt = document.createElement('option');
+    opt.value = x.c;
+    opt.textContent = x.c + ' — ' + x.t;
+    planExam.appendChild(opt);
+  });
+
+  var planForm = $('#planForm');
+  var planEmail = $('#planEmail');
+  var planErr = $('#planErr');
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+
+  planForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var value = planEmail.value.trim();
+    if (!EMAIL_RE.test(value)) {
+      planErr.textContent = value ? 'Please enter a valid email address.' : 'Please add your email address.';
+      planEmail.focus();
+      return;
+    }
+    planErr.textContent = '';
+    var exam = planExam.value ? planExam.value : 'your chosen exam';
+    $('#planOkText').textContent = 'Thanks — a week-by-week outline for ' + exam + ' is on its way to ' + value + '.';
+    planForm.classList.add('sent');
+  });
+
+  planEmail.addEventListener('input', function () {
+    if (planErr.textContent) { planErr.textContent = ''; planForm.classList.remove('sent'); }
+  });
+
+  /* ------------------------------------------------------------ FAQ */
+  $$('.faq-q').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var item = btn.closest('.faq-item');
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+      item.classList.toggle('open', !open);
+    });
+  });
+
+  /* ------------------------------------------------- header, nav, to top */
+  var header = $('.site-header');
+  var toTop = $('#toTop');
+  var navToggle = $('#navToggle');
+
+  function onScroll() {
+    var y = window.pageYOffset || document.documentElement.scrollTop;
+    header.classList.toggle('is-stuck', y > 8);
+    toTop.classList.toggle('show', y > 620);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  toTop.addEventListener('click', scrollToTop);
+
+  navToggle.addEventListener('click', function () {
+    var open = navToggle.getAttribute('aria-expanded') === 'true';
+    navToggle.setAttribute('aria-expanded', open ? 'false' : 'true');
+    document.body.classList.toggle('nav-open', !open);
+  });
+
+  $$('#mobilePanel a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      navToggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('nav-open');
+    });
+  });
+
+  /* --------------------------------------------------------- hero stats */
+  function countUp(el, target) {
+    if (!el) return;
+    if (reduceMotion) { el.textContent = String(target); return; }
+    var start = null;
+    var dur = 900;
+    function frame(ts) {
+      if (start === null) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      el.textContent = String(Math.round(target * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) window.requestAnimationFrame(frame);
+    }
+    window.requestAnimationFrame(frame);
+  }
+
+  /* --------------------------------------------------------------- init */
+  buildDomainChips();
+  render();
+
+  $('#year').textContent = String(new Date().getFullYear());
+  $('#heroCount').textContent = String(EXAMS.length);
+  countUp($('#statExams'), EXAMS.length);
+  countUp($('#statDomains'), Object.keys(domainCounts).length);
+})();
+
+</script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a3e92a41bb25ce3d',t:'MTc4OTk5NDcwNg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
